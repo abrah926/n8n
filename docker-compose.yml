@@ -5,7 +5,7 @@ services:
     image: n8nio/n8n
     restart: always
     ports:
-      - "5678:5678"
+      - "5680:5678"   # Change the host port to 5680
     volumes:
       - ~/.n8n:/home/node/.n8n
     environment:

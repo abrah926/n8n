@@ -3,14 +3,11 @@ version: "3.8"
 services:
   n8n:
     build:
-      context: ./n8n  
-      dockerfile: Dockerfile  # Explicitly reference the Dockerfile inside n8n/
-      args:
-        NODE_VERSION: 20
-        N8N_VERSION: "1.82.3"
+      context: ./docker/images/n8n  # ✅ This tells Docker Compose where to find the Dockerfile
+      dockerfile: Dockerfile  # Explicitly reference the Dockerfile
     restart: always
     ports:
-      - "5680:5678"  # Change host port to 5680 to avoid conflicts
+      - "5680:5678"  # Avoid conflicts by changing the exposed port
     volumes:
       - ~/.n8n:/home/node/.n8n
     environment:

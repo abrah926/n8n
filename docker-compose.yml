@@ -3,30 +3,30 @@ version: "3.8"
 services:
   n8n:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./n8n  
+      dockerfile: Dockerfile  # Explicitly reference the Dockerfile inside n8n/
       args:
         NODE_VERSION: 20
-        N8N_VERSION: "1.82.3" # Adjust this to the version you need
+        N8N_VERSION: "1.82.3"
     restart: always
     ports:
-      - "5680:5678"  # Expose 5678 inside container, mapped to 5680 on host
+      - "5680:5678"  # Change host port to 5680 to avoid conflicts
     volumes:
-      - ~/.n8n:/home/node/.n8n  # Persist workflows, credentials, and settings
+      - ~/.n8n:/home/node/.n8n
     environment:
       - NODE_ENV=production
-      - N8N_VERSION=1.82.3  # Sync with the Dockerfile ARG
+      - N8N_VERSION=1.82.3
       - N8N_RELEASE_TYPE=stable
       - N8N_HOST=0.0.0.0
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
       - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
       - N8N_DEFAULT_BINARY_DATA_MODE=filesystem
-      - EXECUTIONS_MODE=queue # Improves scalability
-      - QUEUE_BULL_REDIS_HOST=redis # Ensures queue processing
-      - WEBHOOK_TUNNEL_URL=http://localhost:5680  # Required if running behind a proxy
+      - EXECUTIONS_MODE=queue
+      - QUEUE_BULL_REDIS_HOST=redis
+      - WEBHOOK_TUNNEL_URL=http://localhost:5680
     depends_on:
-      - redis  # Ensures Redis starts before n8n
+      - redis
     networks:
       - n8n_network
 
